@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demande envoyée | DANN VTC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Rajdhani:wght@500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#030b1a;--chrome:#d4dff0;--text:#e8f0ff;--muted:#7a96c0;--blue2:#4a8fff;}
+body{background:var(--navy);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+
+.check{width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(74,143,255,0.5);background:rgba(26,79,214,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 2rem;font-size:2rem;animation:pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+.label{font-size:0.68rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.8rem}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,2.8rem);font-weight:300;color:var(--chrome);margin-bottom:1rem}
+p{color:var(--muted);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto 2.5rem}
+
+.divider{width:55px;height:1px;background:linear-gradient(90deg,var(--blue2),transparent);margin:0 auto 2.5rem}
+
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;padding:0.9rem 2.2rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;border-radius:2px;text-decoration:none;display:inline-block;box-shadow:0 4px 20px rgba(26,79,214,0.35)}
+.btn-outline{background:transparent;color:var(--chrome);border:1px solid rgba(180,200,240,0.35);padding:0.9rem 2.2rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;border-radius:2px;text-decoration:none;display:inline-block}
+</style>
+</head>
+<body>
+  <div class="check">✓</div>
+  <div class="label">Confirmation</div>
+  <h1>Demande bien reçue</h1>
+  <div class="divider"></div>
+  <p>Merci pour votre demande de réservation. Daniel vous recontacte dans les plus brefs délais pour confirmer votre trajet et vous communiquer le tarif.</p>
+  <div class="btns">
+    <a href="index.html" class="btn-primary">Retour à l'accueil</a>
+    <a href="tel:0745280441" class="btn-outline">📞 07.45.28.04.41</a>
+  </div>
+</body>
+</html>

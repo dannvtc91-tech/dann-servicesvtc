@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarifs VTC Essonne | DANN VTC — Prix fixe garanti</title>
+<meta name="description" content="Tarifs fixes et transparents pour votre chauffeur privé VTC en Essonne. Essonne → CDG à partir de 70€, Orly à partir de 40€. Pas de mauvaise surprise, prix confirmé avant le trajet.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dann-servicesvtc.fr/tarifs.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  "name": "DANN VTC — Daniel Barclay",
+  "url": "https://dann-servicesvtc.fr",
+  "telephone": "+33745280441",
+  "priceRange": "€€"
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Rajdhani:wght@500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#030b1a;--deep:#071428;--accent:#1a4fd6;--silver:#b8c8e0;--chrome:#d4dff0;--text:#e8f0ff;--muted:#7a96c0;--blue2:#4a8fff;}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(3,11,26,0.96);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(180,200,240,0.1)}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.dann-logo-svg{height:36px;width:auto}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--chrome)}
+.nav-links a.active{color:var(--chrome)}
+.nav-cta{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;padding:0.48rem 1.3rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.86rem;letter-spacing:0.1em;border-radius:2px;text-decoration:none}
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;z-index:300;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--silver);border-radius:2px;transition:all 0.3s ease;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-cta-mobile{display:none;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;text-decoration:none;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 12px rgba(26,79,214,0.4)}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;z-index:199;background:rgba(3,11,26,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(180,200,240,0.1);padding:1.2rem 0;flex-direction:column;transform:translateY(-10px);opacity:0;transition:transform 0.3s ease,opacity 0.3s ease}
+.mobile-menu.open{transform:translateY(0);opacity:1}
+.mobile-menu a{color:var(--silver);text-decoration:none;font-size:0.9rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.85rem 2rem;display:block;border-bottom:1px solid rgba(180,200,240,0.06);transition:color 0.2s,background 0.2s}
+.mobile-menu a:hover{color:var(--chrome);background:rgba(74,143,255,0.06)}
+.mobile-menu .mobile-cta{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff!important;margin:1rem 2rem 0.2rem;border-radius:2px;text-align:center;border-bottom:none!important}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{display:flex}
+  .nav-cta-mobile{display:flex}
+}
+
+main{max-width:900px;margin:0 auto;padding:7rem 2rem 5rem}
+.page-label{font-size:0.68rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.7rem}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:var(--chrome);margin-bottom:0.6rem}
+.page-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:1.1rem;margin-bottom:2rem}
+.page-divider{width:55px;height:1px;background:linear-gradient(90deg,var(--blue2),transparent);margin-bottom:3rem}
+
+/* GRILLE TRAJETS */
+.trajets-title{font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.2rem}
+.trajets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(180,200,240,0.08);border:1px solid rgba(180,200,240,0.08);border-radius:4px;overflow:hidden;margin-bottom:3rem}
+.trajet-row{background:rgba(7,20,40,0.85);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;transition:background 0.2s}
+.trajet-row:hover{background:rgba(10,26,55,0.95)}
+.trajet-info{display:flex;flex-direction:column;gap:0.2rem}
+.trajet-label{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.trajet-route{font-size:1rem;font-weight:600;color:var(--chrome)}
+.trajet-prix{text-align:right;flex-shrink:0}
+.trajet-from{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.trajet-amount{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--blue2);line-height:1}
+
+/* TARIFS SPÉCIAUX */
+.special-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-bottom:3rem}
+.special-card{background:rgba(7,20,40,0.7);border:1px solid rgba(180,200,240,0.09);border-radius:3px;padding:1.6rem;text-align:center;transition:border-color 0.3s}
+.special-card:hover{border-color:rgba(74,143,255,0.3)}
+.special-icon{font-size:1.8rem;margin-bottom:0.8rem;display:block}
+.special-name{font-weight:700;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--chrome);margin-bottom:0.3rem}
+.special-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--blue2);font-weight:600}
+.special-desc{font-size:0.8rem;color:var(--muted);margin-top:0.3rem;line-height:1.5}
+
+/* NOTE */
+.note{background:rgba(26,79,214,0.07);border:1px solid rgba(74,143,255,0.15);border-radius:3px;padding:1.2rem 1.5rem;margin-bottom:3rem;font-size:0.88rem;color:var(--muted);line-height:1.7}
+.note strong{color:var(--silver)}
+
+/* CTA */
+.cta-block{text-align:center;padding:3rem 0}
+.cta-block p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--silver);margin-bottom:1.8rem}
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;padding:1rem 2.5rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;border-radius:2px;text-decoration:none;display:inline-block;box-shadow:0 4px 20px rgba(26,79,214,0.35);transition:transform 0.2s,box-shadow 0.2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,79,214,0.5)}
+.btn-outline{background:transparent;color:var(--chrome);border:1px solid rgba(180,200,240,0.35);padding:1rem 2.5rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;border-radius:2px;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-outline:hover{background:rgba(180,200,240,0.06);border-color:var(--silver)}
+
+footer{background:#020810;border-top:1px solid rgba(180,200,240,0.07);padding:2rem;text-align:center}
+footer p{font-size:0.78rem;color:var(--muted)}
+footer a{color:var(--blue2);text-decoration:none;margin:0 0.8rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="dann-logo-svg" viewBox="0 0 240 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="mN" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4dff0"/><stop offset="50%" stop-color="#b8c8e0"/><stop offset="100%" stop-color="#7a96c0"/></linearGradient></defs>
+      <path d="M4 4 H20 Q40 4 40 24 Q40 44 20 44 H4 Z" fill="url(#mN)"/>
+      <path d="M13 13 H19 Q31 13 31 24 Q31 35 19 35 H13 Z" fill="#030b1a"/>
+      <path d="M46 44 L66 4 L86 44 Z" fill="url(#mN)"/>
+      <path d="M66 14 L57 38 L75 38 Z" fill="#030b1a"/>
+      <rect x="54" y="30" width="24" height="8" fill="#030b1a"/>
+      <path d="M66 16 L58.5 36 L73.5 36 Z" fill="#08152a" opacity="0.95"/>
+      <line x1="60" y1="35" x2="66" y2="18" stroke="#c8d8f0" stroke-width="1" opacity="0.5"/>
+      <line x1="72" y1="35" x2="66" y2="18" stroke="#c8d8f0" stroke-width="1" opacity="0.5"/>
+      <line x1="66" y1="18" x2="66" y2="35" stroke="#4a8fff" stroke-width="1.4" stroke-dasharray="3,2.5"><animate attributeName="stroke-dashoffset" from="0" to="-22" dur="0.6s" repeatCount="indefinite"/></line>
+      <path d="M92 4 V44 M92 4 L114 44 M114 4 V44" stroke="url(#mN)" stroke-width="8" fill="none" stroke-linecap="square"/>
+      <path d="M120 4 V44 M120 4 L142 44 M142 4 V44" stroke="url(#mN)" stroke-width="8" fill="none" stroke-linecap="square"/>
+      <text x="154" y="38" font-family="Rajdhani, sans-serif" font-size="18" font-weight="700" fill="#4a8fff" letter-spacing="3">VTC</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="tarifs.html" class="active">Tarifs</a></li>
+    <li><a href="index.html#reservation">Réservation</a></li>
+    <li><a href="index.html#pourquoi">Confiance</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="tel:0745280441" class="nav-cta">📞 07.45.28.04.41</a>
+  <a href="tel:0745280441" class="nav-cta-mobile" aria-label="Appeler">📞</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Accueil</a>
+  <a href="tarifs.html" onclick="closeMenu()">Tarifs</a>
+  <a href="index.html#reservation" onclick="closeMenu()">Réservation</a>
+  <a href="index.html#pourquoi" onclick="closeMenu()">Confiance</a>
+  <a href="index.html#contact" onclick="closeMenu()">Contact</a>
+  <a href="tel:0745280441" class="mobile-cta">📞 07.45.28.04.41</a>
+</div>
+
+<main>
+  <div class="page-label">Transparence & confiance</div>
+  <h1 class="page-title">Tarifs</h1>
+  <p class="page-sub">Prix fixes confirmés avant chaque trajet — jamais de mauvaise surprise.</p>
+  <div class="page-divider"></div>
+
+  <!-- TRAJETS AÉROPORTS -->
+  <div class="trajets-title">Transferts aéroports & gares</div>
+  <div class="trajets-grid">
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Aéroport CDG</div><div class="trajet-route">Essonne → CDG</div></div>
+      <div class="trajet-prix"><div class="trajet-from">à partir de</div><div class="trajet-amount">70 €</div></div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Aéroport CDG</div><div class="trajet-route">CDG → Essonne</div></div>
+      <div class="trajet-prix"><div class="trajet-from">à partir de</div><div class="trajet-amount">70 €</div></div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Aéroport Orly</div><div class="trajet-route">Essonne → Orly</div></div>
+      <div class="trajet-prix"><div class="trajet-from">à partir de</div><div class="trajet-amount">40 €</div></div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Aéroport Orly</div><div class="trajet-route">Orly → Essonne</div></div>
+      <div class="trajet-prix"><div class="trajet-from">à partir de</div><div class="trajet-amount">40 €</div></div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Paris</div><div class="trajet-route">Essonne → Paris intra-muros</div></div>
+      <div class="trajet-prix"><div class="trajet-from"></div><div class="trajet-amount" style="font-size:1.2rem;padding-top:0.3rem">Sur devis</div></div>
+    </div>
+    <div class="trajet-row">
+      <div class="trajet-info"><div class="trajet-label">Gares parisiennes</div><div class="trajet-route">Essonne → Gare du Nord / Lyon / Montparnasse</div></div>
+      <div class="trajet-prix"><div class="trajet-from"></div><div class="trajet-amount" style="font-size:1.2rem;padding-top:0.3rem">Sur devis</div></div>
+    </div>
+  </div>
+
+  <!-- AUTRES SERVICES -->
+  <div class="trajets-title">Autres services</div>
+  <div class="special-grid">
+    <div class="special-card">
+      <span class="special-icon">🕐</span>
+      <div class="special-name">Mise à disposition</div>
+      <div class="special-price">50 € / heure</div>
+      <div class="special-desc">Chauffeur à votre disposition pour la durée souhaitée</div>
+    </div>
+    <div class="special-card">
+      <span class="special-icon">🗺️</span>
+      <div class="special-name">Longue distance</div>
+      <div class="special-price">Sur devis</div>
+      <div class="special-desc">Toute destination en France, tarif calculé selon le trajet</div>
+    </div>
+    <div class="special-card">
+      <span class="special-icon">💼</span>
+      <div class="special-name">Compte entreprise</div>
+      <div class="special-price">Tarif négocié</div>
+      <div class="special-desc">Facturation mensuelle, chauffeur attitré, priorité booking</div>
+    </div>
+  </div>
+
+  <!-- NOTE TARIFAIRE -->
+  <div class="note">
+    <strong>Comment sont calculés les tarifs ?</strong><br>
+    Les prix indiqués sont des tarifs de base. Le tarif exact est établi avant chaque trajet en fonction de la distance précise, de l'horaire (nuit, week-end, jours fériés) et des éventuels péages. Vous recevez toujours le prix définitif avant confirmation — aucune surprise à l'arrivée.
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <p>Un trajet en tête ? Demandez votre tarif en 2 minutes.</p>
+    <div class="btns">
+      <a href="index.html#reservation" class="btn-primary">Demander un devis</a>
+      <a href="https://wa.me/33745280441" class="btn-outline">💬 WhatsApp</a>
+      <a href="tel:0745280441" class="btn-outline">📞 07.45.28.04.41</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>
+    <a href="index.html">Accueil</a>
+    <a href="tarifs.html">Tarifs</a>
+    <a href="mentions-legales.html">Mentions légales</a>
+    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+  </p>
+  <p style="margin-top:0.8rem">© 2026 DANN Services VTC — Carte professionnelle VTC n° 09126052201</p>
+</footer>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+function closeMenu(){
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}
+document.addEventListener('click', e => {
+  if(!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
+});
+</script>
+</body>
+</html>

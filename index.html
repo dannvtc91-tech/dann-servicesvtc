@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DANN VTC | Chauffeur Privé Essonne — Aéroports CDG & Orly</title>
+<meta name="description" content="Chauffeur privé VTC en Essonne et Île-de-France. Transferts aéroports CDG et Orly, gares, déplacements professionnels. Tarif fixe garanti, disponible 7j/7. Réservation rapide au 07.45.28.04.41.">
+<meta name="keywords" content="VTC Essonne, chauffeur privé Essonne, VTC Évry, VTC Corbeil-Essonnes, chauffeur aéroport CDG, chauffeur aéroport Orly, VTC Île-de-France, transport VTC Massy, chauffeur privé Paris">
+<meta name="author" content="Daniel Barclay — DANN VTC">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dann-servicesvtc.fr/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dann-servicesvtc.fr/">
+<meta property="og:title" content="DANN VTC | Chauffeur Privé Essonne — Aéroports CDG & Orly">
+<meta property="og:description" content="Chauffeur privé VTC en Essonne et Île-de-France. Tarif fixe garanti, disponible 7j/7.">
+<meta property="og:locale" content="fr_FR">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TaxiService","name":"DANN VTC — Daniel Barclay","description":"Chauffeur privé VTC en Essonne et Île-de-France.","url":"https://dann-servicesvtc.fr","telephone":"+33745280441","email":"contact@dann-servicesvtc.fr","priceRange":"€€","areaServed":["Essonne","Île-de-France","Paris"],"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Rajdhani:wght@500;600;700&display=swap');
+
+/* ===== RESET & VARIABLES ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#030b1a;--deep:#071428;--accent:#1a4fd6;
+  --silver:#b8c8e0;--chrome:#d4dff0;--text:#e8f0ff;
+  --muted:#7a96c0;--blue2:#4a8fff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden}
+
+/* ===== CANVAS ROUTE ===== */
+#road-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.25}
+body>*:not(#road-canvas){position:relative;z-index:1}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:transparent;transition:background 0.4s,box-shadow 0.4s}
+nav.scrolled{background:rgba(3,11,26,0.96);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(180,200,240,0.1)}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.dann-logo-svg{height:36px;width:auto}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--chrome)}
+.nav-cta{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;padding:0.45rem 1.2rem;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;border-radius:2px;text-decoration:none}
+
+/* Hamburger — caché sur desktop */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;background:none;border:none;padding:4px;z-index:300}
+.hamburger span{display:block;width:24px;height:2px;background:var(--silver);border-radius:2px;transition:all 0.3s;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-cta-mobile{display:none;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;text-decoration:none;align-items:center;justify-content:center;font-size:1rem}
+
+/* Menu mobile */
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;z-index:199;background:rgba(3,11,26,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(180,200,240,0.1);padding:1rem 0;flex-direction:column;opacity:0;transform:translateY(-8px);transition:opacity 0.3s,transform 0.3s}
+.mobile-menu.open{opacity:1;transform:translateY(0)}
+.mobile-menu a{color:var(--silver);text-decoration:none;font-size:0.88rem;letter-spacing:0.16em;text-transform:uppercase;padding:0.8rem 2rem;display:block;border-bottom:1px solid rgba(180,200,240,0.06)}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu .mob-cta{background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff!important;margin:0.8rem 2rem 0.4rem;border-radius:2px;text-align:center;border-bottom:none!important}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 1.5rem 3rem;
+  position:relative;overflow:hidden;
+}
+
+/* Le SVG hero : taille contrôlée par height, pas width */
+.hero-logo{
+  width:auto;
+  height:clamp(80px,18vw,160px);
+  max-width:90vw;
+  filter:drop-shadow(0 0 30px rgba(74,143,255,0.2));
+  margin-bottom:1rem;
+}
+
+.hero-tag{
+  font-size:clamp(0.55rem,1.5vw,0.7rem);
+  letter-spacing:0.32em;text-transform:uppercase;
+  color:var(--blue2);border:1px solid rgba(74,143,255,0.3);
+  display:inline-block;padding:0.25rem 0.9rem;border-radius:1px;
+  margin-bottom:clamp(0.8rem,2vw,1.6rem);
+  background:rgba(26,79,214,0.07);
+}
+.hero-sub{
+  font-size:clamp(0.65rem,1.8vw,1rem);
+  font-weight:600;letter-spacing:0.45em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:clamp(0.5rem,1.5vw,1rem);
+}
+.hero-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--blue2),transparent);margin:clamp(0.5rem,1.5vw,1rem) auto}
+.hero-tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(0.9rem,2.5vw,1.5rem);
+  color:#c8d8f0;margin-bottom:clamp(1rem,2.5vw,2rem);
+  padding:0 0.5rem;
+}
+.hero-btns{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{
+  background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;
+  padding:clamp(0.7rem,2vw,1rem) clamp(1.2rem,3vw,2.5rem);
+  font-family:'Rajdhani',sans-serif;font-size:clamp(0.8rem,2vw,1rem);
+  font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  border-radius:2px;text-decoration:none;display:inline-block;
+  box-shadow:0 4px 20px rgba(26,79,214,0.35);transition:transform 0.2s,box-shadow 0.2s;border:none;cursor:pointer;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,79,214,0.5)}
+.btn-outline{
+  background:rgba(3,11,26,0.4);color:var(--chrome);
+  border:1px solid rgba(180,200,240,0.4);
+  padding:clamp(0.7rem,2vw,1rem) clamp(1.2rem,3vw,2.5rem);
+  font-family:'Rajdhani',sans-serif;font-size:clamp(0.8rem,2vw,1rem);
+  font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  border-radius:2px;text-decoration:none;display:inline-block;
+  transition:all 0.2s;cursor:pointer;
+}
+.btn-outline:hover{background:rgba(180,200,240,0.08)}
+
+.hero-stats{
+  display:flex;gap:clamp(1.5rem,4vw,3rem);
+  margin-top:clamp(1.2rem,3vw,2.5rem);
+}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:600;color:#c8d8f0;line-height:1}
+.hero-stat-label{font-size:clamp(0.55rem,1.4vw,0.66rem);letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem}
+
+/* ===== SECTIONS COMMUNES ===== */
+.section-wrap{padding:4rem 1.5rem;max-width:1100px;margin:0 auto}
+.section-label{font-size:0.68rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--blue2);margin-bottom:0.6rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:300;color:var(--chrome);margin-bottom:2rem}
+.divider{width:55px;height:1px;background:linear-gradient(90deg,var(--blue2),transparent);margin-bottom:2.5rem}
+
+/* ===== SERVICES ===== */
+#services{background:rgba(3,11,26,0.7);padding:4rem 1.5rem}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
+.service-card{background:rgba(7,20,40,0.85);border:1px solid rgba(180,200,240,0.09);border-radius:3px;padding:1.8rem 1rem;text-align:center;transition:border-color 0.3s,transform 0.3s}
+.service-card:hover{border-color:rgba(74,143,255,0.4);transform:translateY(-3px)}
+.service-icon{font-size:2rem;margin-bottom:0.8rem;display:block}
+.service-name{font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--chrome)}
+.service-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.95rem;color:var(--muted);margin-top:0.25rem}
+
+/* ===== TARIFS APERÇU ===== */
+#tarifs-apercu{background:rgba(5,15,32,0.75);padding:4rem 1.5rem}
+.tarifs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(180,200,240,0.08);border:1px solid rgba(180,200,240,0.08);border-radius:4px;overflow:hidden;margin-bottom:1.5rem;max-width:1100px;margin-left:auto;margin-right:auto}
+.tarif-row{background:rgba(7,20,40,0.85);padding:1.1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;transition:background 0.2s}
+.tarif-row:hover{background:rgba(10,26,55,0.95)}
+.tarif-label{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.tarif-route{font-size:0.95rem;font-weight:600;color:var(--chrome)}
+.tarif-from{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:right}
+.tarif-amount{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--blue2);line-height:1;text-align:right}
+
+/* ===== POURQUOI ===== */
+#pourquoi{background:rgba(5,15,32,0.75);padding:4rem 1.5rem}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto}
+.why-card{padding:1.6rem;border-left:2px solid var(--accent);background:rgba(7,20,40,0.5);transition:border-color 0.3s}
+.why-card:hover{border-color:var(--blue2)}
+.why-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:rgba(74,143,255,0.15);line-height:1;font-weight:300}
+.why-title{font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--chrome);margin:.4rem 0 .3rem}
+.why-text{color:var(--muted);font-size:0.85rem;line-height:1.65}
+
+/* ===== STEPS ===== */
+#steps{background:rgba(3,11,26,0.6);padding:4rem 1.5rem}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;max-width:900px;margin:0 auto}
+.step{text-align:center;padding:0 1rem}
+.step-circle{width:42px;height:42px;border-radius:50%;border:1px solid rgba(74,143,255,0.5);background:rgba(26,79,214,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--blue2)}
+.step-title{font-weight:700;font-size:0.9rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--chrome);margin-bottom:0.4rem}
+.step-desc{font-size:0.83rem;color:var(--muted);line-height:1.6}
+
+/* ===== RESERVATION ===== */
+#reservation{background:rgba(5,15,32,0.8);padding:4rem 1.5rem}
+.resa-inner{max-width:660px;margin:0 auto;text-align:center}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;margin-bottom:1rem;text-align:left}
+.form-group{display:flex;flex-direction:column;gap:0.3rem}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group select{background:rgba(7,20,40,0.8);border:1px solid rgba(180,200,240,0.14);color:var(--text);padding:0.75rem 0.9rem;font-family:'Rajdhani',sans-serif;font-size:0.95rem;border-radius:2px;outline:none;transition:border-color 0.2s;width:100%}
+.form-group input:focus,.form-group select:focus{border-color:var(--blue2)}
+.form-group input::placeholder{color:rgba(122,150,192,0.35)}
+.form-group select option{background:#071428}
+.btn-submit{width:100%;padding:1rem;background:linear-gradient(135deg,#1a4fd6,#0d2a6e);color:#fff;border:none;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-bottom:1.3rem;transition:opacity 0.2s;box-shadow:0 4px 18px rgba(26,79,214,0.3)}
+.btn-submit:hover{opacity:0.9}
+.or-divider{color:var(--muted);font-size:0.78rem;margin:1rem 0;letter-spacing:0.2em;text-transform:uppercase}
+.quick-contact{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+.quick-btn{display:flex;align-items:center;gap:0.4rem;padding:0.7rem 1.5rem;border:1px solid rgba(180,200,240,0.18);color:var(--chrome);text-decoration:none;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.88rem;border-radius:2px;transition:all 0.2s}
+.quick-btn:hover{background:rgba(180,200,240,0.06)}
+
+/* ===== AVIS ===== */
+#avis{background:rgba(3,11,26,0.65);padding:4rem 1.5rem}
+.avis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;max-width:1100px;margin:0 auto}
+.avis-card{background:rgba(7,20,40,0.7);border:1px solid rgba(180,200,240,0.07);border-radius:3px;padding:1.6rem;transition:border-color 0.3s}
+.avis-card:hover{border-color:rgba(74,143,255,0.22)}
+.stars{color:#8fa8d0;font-size:0.9rem;margin-bottom:0.8rem}
+.avis-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--silver);line-height:1.6;margin-bottom:0.8rem}
+.avis-author{font-size:0.74rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== CONTACT ===== */
+#contact{background:rgba(5,15,32,0.7);padding:4rem 1.5rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;max-width:1100px;margin:0 auto}
+.contact-info{display:flex;flex-direction:column;gap:1.4rem}
+.contact-item{display:flex;align-items:center;gap:0.9rem}
+.contact-icon-wrap{width:44px;height:44px;border-radius:50%;background:rgba(26,79,214,0.1);border:1px solid rgba(26,79,214,0.22);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-label{font-size:0.64rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.1rem}
+.contact-value{color:var(--chrome);font-size:0.95rem;font-weight:600;text-decoration:none}
+.zone-box{background:rgba(7,20,40,0.8);border:1px solid rgba(180,200,240,0.08);border-radius:3px;padding:1.8rem;text-align:center}
+.zone-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--chrome);margin-bottom:0.9rem}
+.zone-tags{display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center}
+.zone-tag{background:rgba(26,79,214,0.1);border:1px solid rgba(26,79,214,0.2);padding:0.25rem 0.8rem;border-radius:2px;font-size:0.74rem;letter-spacing:0.08em;color:var(--silver)}
+
+/* ===== FOOTER ===== */
+footer{background:#020810;border-top:1px solid rgba(180,200,240,0.07);padding:3rem 1.5rem 2rem;text-align:center}
+.footer-logo-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:1.4rem}
+.footer-logo-wrap::before{content:'';display:block;width:160px;height:1px;background:linear-gradient(90deg,transparent,rgba(74,143,255,0.3),transparent);margin-bottom:2rem}
+.footer-dann-svg{width:clamp(180px,32vw,300px);height:auto;opacity:0.8;filter:drop-shadow(0 0 16px rgba(74,143,255,0.15))}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:var(--muted);margin-top:0.8rem}
+.footer-legal{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(180,200,240,0.06)}
+.footer-legal span{font-size:0.7rem;color:rgba(122,150,192,0.45);letter-spacing:0.07em}
+.footer-legal a{font-size:0.7rem;color:rgba(122,150,192,0.45);text-decoration:none;letter-spacing:0.07em}
+
+/* ===== FLOAT BTN ===== */
+.float-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1a4fd6,#0d2a6e);display:flex;align-items:center;justify-content:center;font-size:1.3rem;text-decoration:none;box-shadow:0 4px 18px rgba(26,79,214,0.5);border:1px solid rgba(180,200,240,0.15);transition:transform 0.2s}
+.float-btn:hover{transform:scale(1.08)}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media(max-width:768px){
+  /* Nav */
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .hamburger{display:flex}
+  .nav-cta-mobile{display:flex}
+  .mobile-menu{display:flex}
+
+  /* Hero : centré, pas d'animations bloquantes */
+  #hero{
+    min-height:100svh;
+    padding:64px 1.2rem 2rem;
+    justify-content:center;
+  }
+  .hero-logo{height:clamp(70px,20vw,110px)}
+
+  /* Boutons en colonne sur mobile */
+  .hero-btns{flex-direction:column;align-items:center;width:100%;max-width:260px}
+  .btn-primary,.btn-outline{width:100%;text-align:center}
+
+  /* Stats */
+  .hero-stats{gap:1.5rem;margin-top:1.2rem}
+
+  /* Sections */
+  .section-wrap{padding:3rem 1.2rem}
+  #services{padding:3rem 1.2rem}
+  #tarifs-apercu{padding:3rem 1.2rem}
+  #pourquoi{padding:3rem 1.2rem}
+  #steps{padding:3rem 1.2rem}
+  #reservation{padding:3rem 1.2rem}
+  #avis{padding:3rem 1.2rem}
+  #contact{padding:3rem 1.2rem}
+
+  /* Grilles en 1 colonne */
+  .form-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+
+  /* Float btn */
+  .float-btn{width:46px;height:46px;font-size:1.1rem;bottom:1rem;right:1rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="road-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <svg class="dann-logo-svg" viewBox="0 0 240 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="nM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4dff0"/><stop offset="50%" stop-color="#b8c8e0"/><stop offset="100%" stop-color="#7a96c0"/></linearGradient></defs>
+      <path d="M4 4 H20 Q40 4 40 24 Q40 44 20 44 H4 Z" fill="url(#nM)"/>
+      <path d="M13 13 H19 Q31 13 31 24 Q31 35 19 35 H13 Z" fill="#030b1a"/>
+      <path d="M46 44 L66 4 L86 44 Z" fill="url(#nM)"/>
+      <path d="M66 14 L57 38 L75 38 Z" fill="#030b1a"/>
+      <rect x="54" y="30" width="24" height="8" fill="#030b1a"/>
+      <path d="M66 16 L58.5 36 L73.5 36 Z" fill="#08152a"/>
+      <line x1="60" y1="35" x2="66" y2="18" stroke="#c8d8f0" stroke-width="1" opacity="0.5"/>
+      <line x1="72" y1="35" x2="66" y2="18" stroke="#c8d8f0" stroke-width="1" opacity="0.5"/>
+      <line x1="66" y1="18" x2="66" y2="35" stroke="#4a8fff" stroke-width="1.4" stroke-dasharray="3,2.5"><animate attributeName="stroke-dashoffset" from="0" to="-22" dur="0.6s" repeatCount="indefinite"/></line>
+      <path d="M92 4 V44 M92 4 L114 44 M114 4 V44" stroke="url(#nM)" stroke-width="8" fill="none" stroke-linecap="square"/>
+      <path d="M120 4 V44 M120 4 L142 44 M142 4 V44" stroke="url(#nM)" stroke-width="8" fill="none" stroke-linecap="square"/>
+      <text x="154" y="38" font-family="Rajdhani,sans-serif" font-size="18" font-weight="700" fill="#4a8fff" letter-spacing="3">VTC</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="tarifs.html">Tarifs</a></li>
+    <li><a href="#reservation">Réservation</a></li>
+    <li><a href="#pourquoi">Confiance</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:0745280441" class="nav-cta">📞 07.45.28.04.41</a>
+  <a href="tel:0745280441" class="nav-cta-mobile" aria-label="Appeler">📞</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="tarifs.html" onclick="closeMenu()">Tarifs</a>
+  <a href="#reservation" onclick="closeMenu()">Réservation</a>
+  <a href="#pourquoi" onclick="closeMenu()">Confiance</a>
+  <a href="#avis" onclick="closeMenu()">Avis</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="tel:0745280441" class="mob-cta">📞 07.45.28.04.41</a>
+</div>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-tag">Chauffeur Privé · Essonne &amp; Île-de-France</div>
+
+  <!-- SVG HERO — taille contrôlée par height uniquement -->
+  <svg class="hero-logo" viewBox="0 0 580 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="hM" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="35%" stop-color="#c8d8f0"/>
+        <stop offset="70%" stop-color="#8fa8d0"/>
+        <stop offset="100%" stop-color="#4a6898"/>
+      </linearGradient>
+      <linearGradient id="hR" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#081830"/>
+        <stop offset="100%" stop-color="#0d2040"/>
+      </linearGradient>
+      <filter id="hG" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- D — sans ligne en pointillé qui passe par dessus -->
+    <path d="M10 12 H52 Q98 12 98 80 Q98 148 52 148 H10 Z" fill="url(#hM)"/>
+    <path d="M30 32 H50 Q76 32 76 80 Q76 128 50 128 H30 Z" fill="#030b1a"/>
+
+    <!-- A -->
+    <path d="M116 148 L168 12 L220 148 Z" fill="url(#hM)"/>
+    <path d="M168 44 L148 114 L188 114 Z" fill="#030b1a"/>
+    <rect x="143" y="98" width="50" height="16" fill="#030b1a"/>
+    <path d="M168 46 L149.5 112 L186.5 112 Z" fill="url(#hR)"/>
+    <path d="M168 46 L163 112 L173 112 Z" fill="#0f2240" opacity="0.6"/>
+    <line x1="151" y1="110" x2="168" y2="48" stroke="rgba(200,216,240,0.7)" stroke-width="1.5"/>
+    <line x1="185" y1="110" x2="168" y2="48" stroke="rgba(200,216,240,0.7)" stroke-width="1.5"/>
+    <line x1="159.5" y1="111" x2="160.5" y2="105" stroke="rgba(180,200,240,0.45)" stroke-width="1.2"/>
+    <line x1="161" y1="101" x2="162" y2="95" stroke="rgba(180,200,240,0.38)" stroke-width="1"/>
+    <line x1="162.5" y1="91" x2="163.2" y2="85" stroke="rgba(180,200,240,0.3)" stroke-width="0.9"/>
+    <line x1="163.5" y1="81" x2="164" y2="75" stroke="rgba(180,200,240,0.22)" stroke-width="0.7"/>
+    <line x1="176.5" y1="111" x2="175.5" y2="105" stroke="rgba(180,200,240,0.45)" stroke-width="1.2"/>
+    <line x1="175" y1="101" x2="174" y2="95" stroke="rgba(180,200,240,0.38)" stroke-width="1"/>
+    <line x1="173.5" y1="91" x2="172.8" y2="85" stroke="rgba(180,200,240,0.3)" stroke-width="0.9"/>
+    <line x1="172.5" y1="81" x2="172" y2="75" stroke="rgba(180,200,240,0.22)" stroke-width="0.7"/>
+    <line x1="168" y1="48" x2="168" y2="112" stroke="#4a8fff" stroke-width="2" stroke-dasharray="9,7" filter="url(#hG)" opacity="0.95">
+      <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.7s" repeatCount="indefinite"/>
+    </line>
+    <circle cx="168" cy="48" r="4" fill="#4a8fff" opacity="0.18"/>
+    <circle cx="168" cy="48" r="2" fill="#4a8fff" opacity="0.35"/>
+
+    <!-- N1 -->
+    <polygon points="236,12 236,148 256,148 256,52 316,148 336,148 336,12 316,12 316,108 256,12" fill="url(#hM)"/>
+
+    <!-- N2 -->
+    <polygon points="352,12 352,148 372,148 372,52 432,148 452,148 452,12 432,12 432,108 372,12" fill="url(#hM)"/>
+
+    <!-- VTC -->
+    <text x="472" y="140" font-family="Rajdhani,sans-serif" font-size="52" font-weight="700" fill="#4a8fff" letter-spacing="4" opacity="0.9">VTC</text>
+  </svg>
+
+  <div class="hero-sub">Chauffeur Privé</div>
+  <div class="hero-line"></div>
+  <p class="hero-tagline">Votre partenaire confiance pour chaque destination</p>
+  <div class="hero-btns">
+    <a href="#reservation" class="btn-primary">Réserver maintenant</a>
+    <a href="tel:0745280441" class="btn-outline">📞 Appeler</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num" data-target="24" data-suffix="h">24h</div><div class="hero-stat-label">Disponible</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">⭐ 5</div><div class="hero-stat-label">Avis clients</div></div>
+    <div class="hero-stat"><div class="hero-stat-num" data-target="100" data-suffix="%">100%</div><div class="hero-stat-label">Tarif fixe</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div style="max-width:1100px;margin:0 auto;padding-bottom:1rem">
+    <div class="section-label reveal">Ce que je propose</div>
+    <h2 class="section-title reveal">Mes services</h2>
+    <div class="divider reveal"></div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card"><span class="service-icon">✈️</span><div class="service-name">Aéroports</div><div class="service-desc">CDG · Orly · Beauvais</div></div>
+    <div class="service-card"><span class="service-icon">🏨</span><div class="service-name">Hôtels & Gares</div><div class="service-desc">Paris & banlieue</div></div>
+    <div class="service-card"><span class="service-icon">💼</span><div class="service-name">Déplacements pro</div><div class="service-desc">Réunions, séminaires</div></div>
+    <div class="service-card"><span class="service-icon">🌙</span><div class="service-name">Trajets quotidiens</div><div class="service-desc">Essonne & alentours</div></div>
+    <div class="service-card"><span class="service-icon">🗺️</span><div class="service-name">Longue distance</div><div class="service-desc">Toute la France</div></div>
+    <div class="service-card"><span class="service-icon">🕐</span><div class="service-name">Mise à disposition</div><div class="service-desc">À l'heure, à la journée</div></div>
+  </div>
+</section>
+
+<!-- TARIFS APERÇU -->
+<section id="tarifs-apercu">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="section-label reveal">Transparence</div>
+    <h2 class="section-title reveal">Tarifs</h2>
+    <div class="divider reveal"></div>
+    <div class="tarifs-grid reveal">
+      <div class="tarif-row"><div><div class="tarif-label">Aéroport CDG</div><div class="tarif-route">Essonne → CDG</div></div><div><div class="tarif-from">à partir de</div><div class="tarif-amount">70 €</div></div></div>
+      <div class="tarif-row"><div><div class="tarif-label">Aéroport Orly</div><div class="tarif-route">Essonne → Orly</div></div><div><div class="tarif-from">à partir de</div><div class="tarif-amount">40 €</div></div></div>
+      <div class="tarif-row"><div><div class="tarif-label">Mise à disposition</div><div class="tarif-route">À l'heure</div></div><div><div class="tarif-from">à partir de</div><div class="tarif-amount">50 €/h</div></div></div>
+      <div class="tarif-row"><div><div class="tarif-label">Paris & gares</div><div class="tarif-route">Essonne → Paris</div></div><div><div class="tarif-amount" style="font-size:1.2rem;padding-top:0.3rem">Sur devis</div></div></div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:1rem">
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.2rem;font-family:'Cormorant Garamond',serif;font-style:italic">Tarif fixe confirmé avant chaque trajet — aucune surprise.</p>
+      <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap">
+        <a href="tarifs.html" class="btn-outline">Voir tous les tarifs</a>
+        <a href="#reservation" class="btn-primary">Demander un devis</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section id="pourquoi">
+  <div class="section-wrap">
+    <div class="section-label reveal">Garanties</div>
+    <h2 class="section-title reveal">Pourquoi choisir DANN</h2>
+    <div class="divider reveal"></div>
+    <div class="why-grid reveal">
+      <div class="why-card"><div class="why-num">01</div><div class="why-title">Ponctualité</div><div class="why-text">Toujours à l'heure. Suivi des vols en temps réel.</div></div>
+      <div class="why-card"><div class="why-num">02</div><div class="why-title">Discrétion</div><div class="why-text">Chauffeur expérimenté, professionnel et discret.</div></div>
+      <div class="why-card"><div class="why-num">03</div><div class="why-title">Confort</div><div class="why-text">Véhicule premium, propre, climatisé.</div></div>
+      <div class="why-card"><div class="why-num">04</div><div class="why-title">Tarif fixe</div><div class="why-text">Prix établi avant le départ, sans surprise.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="steps">
+  <div class="section-wrap">
+    <div class="section-label reveal">Simple & rapide</div>
+    <h2 class="section-title reveal">Comment ça marche</h2>
+    <div class="divider reveal"></div>
+    <div class="steps-grid reveal">
+      <div class="step"><div class="step-circle">1</div><div class="step-title">Réservez</div><div class="step-desc">Par téléphone, WhatsApp ou formulaire — en moins de 2 minutes.</div></div>
+      <div class="step"><div class="step-circle">2</div><div class="step-title">Confirmation</div><div class="step-desc">Vous recevez une confirmation avec le tarif fixe, sans surprise.</div></div>
+      <div class="step"><div class="step-circle">3</div><div class="step-title">À bord</div><div class="step-desc">Votre chauffeur vous attend, ponctuel, véhicule impeccable.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <div class="resa-inner">
+    <div class="section-label reveal">En ligne</div>
+    <h2 class="section-title reveal">Réservation</h2>
+    <div class="divider reveal" style="margin:0 auto 2.5rem"></div>
+    <form name="reservation" method="POST" action="https://formsubmit.co/contact@dann-servicesvtc.fr" class="reveal">
+      <input type="hidden" name="_subject" value="Nouvelle demande de réservation DANN VTC">
+      <input type="hidden" name="_next" value="https://dann-servicesvtc.fr/merci.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label for="nom">Votre nom</label><input id="nom" type="text" name="nom" placeholder="Prénom Nom" required></div>
+        <div class="form-group"><label for="tel">Téléphone</label><input id="tel" type="tel" name="telephone" placeholder="06 XX XX XX XX" required></div>
+        <div class="form-group"><label for="dt">Date & heure</label><input id="dt" type="datetime-local" name="date_heure" required></div>
+        <div class="form-group"><label for="type">Type de trajet</label>
+          <select id="type" name="type_trajet">
+            <option>Aéroport</option><option>Gare / Hôtel</option><option>Déplacement professionnel</option><option>Trajet quotidien</option><option>Mise à disposition</option>
+          </select>
+        </div>
+        <div class="form-group full"><label for="dep">Adresse de départ</label><input id="dep" type="text" name="depart" placeholder="Adresse complète" required></div>
+        <div class="form-group full"><label for="dest">Destination</label><input id="dest" type="text" name="destination" placeholder="Adresse ou aéroport de destination" required></div>
+      </div>
+      <button type="submit" class="btn-submit">Envoyer ma demande →</button>
+    </form>
+    <div class="or-divider">— ou contactez directement —</div>
+    <div class="quick-contact">
+      <a href="tel:0745280441" class="quick-btn">📞 07.45.28.04.41</a>
+      <a href="mailto:contact@dann-servicesvtc.fr" class="quick-btn">✉️ E-mail</a>
+      <a href="https://wa.me/33745280441" class="quick-btn">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="section-wrap" style="padding-bottom:1rem">
+    <div class="section-label reveal">Ils nous font confiance</div>
+    <h2 class="section-title reveal">Avis clients</h2>
+    <div class="divider reveal"></div>
+    <div class="avis-grid reveal">
+      <div class="avis-card"><div class="stars">★★★★★</div><div class="avis-text">« Ponctuel, discret, voiture impeccable. Je recommande sans hésiter. »</div><div class="avis-author">— Marie L., Évry-Courcouronnes</div></div>
+      <div class="avis-card"><div class="stars">★★★★★</div><div class="avis-text">« Mon chauffeur attitré pour tous mes déplacements pro. Fiabilité absolue. »</div><div class="avis-author">— Thomas R., Directeur commercial</div></div>
+      <div class="avis-card"><div class="stars">★★★★★</div><div class="avis-text">« Service irréprochable, tarifs transparents. Un vrai professionnel. »</div><div class="avis-author">— Sophie M., Corbeil-Essonnes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label reveal">Restons en contact</div>
+    <h2 class="section-title reveal">Contact</h2>
+    <div class="divider reveal"></div>
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="contact-item"><div class="contact-icon-wrap">📞</div><div><span class="contact-label">Téléphone</span><a href="tel:0745280441" class="contact-value">07.45.28.04.41</a></div></div>
+        <div class="contact-item"><div class="contact-icon-wrap">🌐</div><div><span class="contact-label">Site web</span><a href="https://dann-servicesvtc.fr" class="contact-value">dann-servicesvtc.fr</a></div></div>
+        <div class="contact-item"><div class="contact-icon-wrap">✉️</div><div><span class="contact-label">E-mail</span><a href="mailto:contact@dann-servicesvtc.fr" class="contact-value">contact@dann-servicesvtc.fr</a></div></div>
+        <div class="contact-item"><div class="contact-icon-wrap">📍</div><div><span class="contact-label">Zone</span><span class="contact-value">Essonne & Île-de-France</span></div></div>
+      </div>
+      <div class="zone-box">
+        <div class="zone-title">Zones desservies</div>
+        <div class="zone-tags">
+          <span class="zone-tag">Évry-Courcouronnes</span><span class="zone-tag">Corbeil-Essonnes</span><span class="zone-tag">Massy</span><span class="zone-tag">Palaiseau</span><span class="zone-tag">CDG</span><span class="zone-tag">Orly</span><span class="zone-tag">Paris</span><span class="zone-tag">Île-de-France</span><span class="zone-tag">Toute la France</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-wrap">
+    <svg class="footer-dann-svg" viewBox="0 0 580 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8d8f0"/><stop offset="40%" stop-color="#8fa8d0"/><stop offset="100%" stop-color="#4a6898"/></linearGradient>
+        <linearGradient id="fR" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#060f22"/><stop offset="100%" stop-color="#0d1e38"/></linearGradient>
+        <filter id="fG" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <path d="M10 12 H52 Q98 12 98 80 Q98 148 52 148 H10 Z" fill="url(#fM)"/>
+      <path d="M30 32 H50 Q76 32 76 80 Q76 128 50 128 H30 Z" fill="#020810"/>
+      <path d="M116 148 L168 12 L220 148 Z" fill="url(#fM)"/>
+      <path d="M168 44 L148 114 L188 114 Z" fill="#020810"/>
+      <rect x="143" y="98" width="50" height="16" fill="#020810"/>
+      <path d="M168 46 L149.5 112 L186.5 112 Z" fill="url(#fR)"/>
+      <line x1="151" y1="110" x2="168" y2="48" stroke="rgba(200,216,240,0.6)" stroke-width="1.5"/>
+      <line x1="185" y1="110" x2="168" y2="48" stroke="rgba(200,216,240,0.6)" stroke-width="1.5"/>
+      <line x1="168" y1="48" x2="168" y2="112" stroke="#4a8fff" stroke-width="2" stroke-dasharray="9,7" filter="url(#fG)" opacity="0.9"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.7s" repeatCount="indefinite"/></line>
+      <circle cx="168" cy="48" r="3" fill="#4a8fff" opacity="0.3"/>
+      <polygon points="236,12 236,148 256,148 256,52 316,148 336,148 336,12 316,12 316,108 256,12" fill="url(#fM)"/>
+      <polygon points="352,12 352,148 372,148 372,52 432,148 452,148 452,12 432,12 432,108 372,12" fill="url(#fM)"/>
+      <text x="472" y="140" font-family="Rajdhani,sans-serif" font-size="52" font-weight="700" fill="#4a8fff" letter-spacing="4" opacity="0.85">VTC</text>
+    </svg>
+    <p class="footer-tagline">Chauffeur Privé — Essonne &amp; Île-de-France</p>
+  </div>
+  <div class="footer-legal">
+    <span>© 2026 DANN Services VTC</span>
+    <span>Carte professionnelle VTC n° 09126052201</span>
+    <a href="tarifs.html">Tarifs</a>
+    <a href="mentions-legales.html">Mentions légales</a>
+    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+  </div>
+</footer>
+
+<a href="tel:0745280441" class="float-btn" title="Appeler">📞</a>
+
+<script>
+/* ROAD CANVAS — plus visible */
+(function(){
+  const canvas = document.getElementById('road-canvas');
+  const ctx = canvas.getContext('2d');
+  let offset = 0;
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function draw(){
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
+    const vp = {x:W/2, y:H*0.35};
+    const rb = W*0.4, rt = W*0.015;
+
+    // Asphalte
+    const g = ctx.createLinearGradient(0,vp.y,0,H);
+    g.addColorStop(0,'rgba(10,22,50,0)');
+    g.addColorStop(0.3,'rgba(12,25,55,0.7)');
+    g.addColorStop(1,'rgba(6,14,32,0.92)');
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.moveTo(vp.x-rt,vp.y); ctx.lineTo(vp.x+rt,vp.y);
+    ctx.lineTo(vp.x+rb,H); ctx.lineTo(vp.x-rb,H);
+    ctx.closePath(); ctx.fill();
+
+    // Bordures blanches
+    ctx.strokeStyle='rgba(200,220,255,0.5)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(vp.x-rt,vp.y); ctx.lineTo(vp.x-rb,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(vp.x+rt,vp.y); ctx.lineTo(vp.x+rb,H); ctx.stroke();
+
+    // Lignes de voie secondaires
+    [0.35,0.65].forEach(f=>{
+      ctx.strokeStyle='rgba(150,180,230,0.15)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(vp.x-rt*f*4,vp.y); ctx.lineTo(vp.x-rb*f,H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(vp.x+rt*f*4,vp.y); ctx.lineTo(vp.x+rb*f,H); ctx.stroke();
+    });
+
+    // Tirets centraux animés
+    const dLen=0.09, gLen=0.07;
+    ctx.strokeStyle='rgba(74,143,255,0.8)';
+    for(let i=-1;i<20;i++){
+      const ts=((i*(dLen+gLen)+offset*(dLen+gLen))%1+1)%1;
+      const te=Math.min(ts+dLen,1);
+      if(ts>0.98) continue;
+      const y1=vp.y+(H-vp.y)*ts, y2=vp.y+(H-vp.y)*te;
+      ctx.globalAlpha=0.3+0.7*ts;
+      ctx.lineWidth=1.5+3.5*ts;
+      ctx.beginPath(); ctx.moveTo(vp.x,y1); ctx.lineTo(vp.x,y2); ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    offset=(offset+0.004)%1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* NAV SCROLL */
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>60));
+
+/* HAMBURGER */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+function closeMenu(){
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  if(!hamburger.contains(e.target)&&!mobileMenu.contains(e.target)) closeMenu();
+});
+
+/* REVEAL */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
